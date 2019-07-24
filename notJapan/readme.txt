@@ -19,3 +19,4 @@
    $npm i -g nodemon
   > 구동하려면 nodemon ./bin/www 인데 명령어 너무 길어서 아래 작업 진행
   > notjapan 프로젝트 밑에 package json에서 start 명령어 start": "node ./bin/www 를 nodemon ./bin/www로 바꾸면 npm start로 간단히 서버 재구동 가능 
+  
