@@ -91,6 +91,12 @@
   $ eth.getBalance( eth.accounts[0] )
 
 3. 이더리움의 사설 네트워크 외부에서 연동하는 방법(RPC)
+- 전자지갑 구현
+1) RPC 접속을 통한 명령을 전송하여 수행
+2) MIST 브라우저(이더리움 GUI 툴) 수행
+3) nodejs 기반 client side에서 수행
+4) nodejs 기반 server side에서 수행 : restAPI 스타일
+5) nodejs 기반 socket.io를 이용한 실시간 통신으로 수행 : 소켓통신
 
 4. 솔리디티 언어 이해 (이더리움 네트워트 상에 프로그램이 가미된 앱을 개발하는 언어)
 
