@@ -7,7 +7,7 @@ var rpc = new Web3( new Web3.providers.HttpProvider('http://localhost:8123') )
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+  res.render('wallet');
 });
 
 // rest API로 이더리움 기반 네트워크에 연동해 업무를 지원하는 API를 구성
