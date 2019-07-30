@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src='/socket.io-client/socket.io.js'></script>
+<script>
+let isConnected = false   
+// 서버 접속
+const socket = io.connect('http://localhost:3000')
+
+// 접속 완료 이벤트 받기
+socket.on('connect',(err)=>{
+    // console.log('접속완료', err)
+    // 에러가 undefined 되면 isConnected는 true
+    if( typeof err==='undefined'){
+        console.log('접속성공')
+        isConnected = true
+        socket.emit('s_send_allAccounts')
+    }
+})
+
+// 계좌 리스트 받기, 데이터가 acounts라는 한 덩어리로 들어옴
+socket.on('c_send_allAccounts', ( accounts )=>{
+    if(!isConnected) return // 접속되지 않았는데 이벤트가 들어오면 중단
+    console.log( accounts )
+})
+</script>
+</head>
+<body>
+
+</body>
+</html>

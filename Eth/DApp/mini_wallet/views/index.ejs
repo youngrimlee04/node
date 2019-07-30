@@ -18,7 +18,7 @@
         totalETH = 0
         $('#accountList').empty()
         $.each( web3.eth.accounts, (idx, addr)=>{          
-          // 계좌별 잔고 확인
+        // 계좌별 잔고 확인
           let coin = web3.fromWei( web3.eth.getBalance( addr ), 'ether')
           totalETH += parseFloat(coin)
           let html = `<option value='${addr}'>${ `Account-${(idx+1)}:${coin} ETH`  }</option>`          

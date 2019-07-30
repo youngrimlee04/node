@@ -4,9 +4,50 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <body>
     <div>
-        <h2>Rest API를 이용한 전자지갑</h2>
+        <h2>Rest API를 이용한 전자지갑<span></span></h2>
+        <label>계좌 리스트</label>
+        <select id="accountList"></select>
+    <p><span id='curAccount'></span></p>
+    <script>
+    // DOM 조작 : 화면의 특정 요소를 조작한다(동적 변경 등)
+    // 위치 잡을 때는 대전제 > 대상이 메모리에 로드된 후 
+    // 계좌 리스트를 받아서 select에 option으로 세팅
+    // client가 Server와 통신하는 방법은 ajax이므로 이를 이용해 통신
+    $.get({
+        url:'/rpc/acListEx',
+        dataType:'json', // 응답 데이터의 포멧
+        success:( data )=>{
+          console.log( data )
+          showAccounts( data ) // select 내부 구성
+        },
+        error:( err )=>{
+          alert ('계좌 불러오기 실패'+ err )
+        }
+      })
+
+      // select 내부 동적 구성 함수
+      function showAccounts ( data ){
+           // 네트워크상 계좌 확인
+        let totalETH = 0 // 계좌 총액
+        $('#accountList').empty() // 기존 계좌 리스트 초기화
+        $.each( data, (idx, account)=>{          
+          // 계좌별 잔고 확인
+          let coin = parseFloat( account.coin )
+          totalETH += coin
+          let html = `<option value='${account.id}'>${ `${account.name}:${coin} ETH`  }</option>`          
+          $('#accountList').append( html )          
+        } )
+        // 총액 표시
+        $('h2>span').html( ` 총액 ${totalETH} ETH` )
+
+        // 계좌를 선택하면
+        $('#accountList').on('change', ( evt )=>{          
+          $('#curAccount').html( `현재 선택한 계좌 ${ $('#accountList').val() }` )
+        })
+      }
+      
+    </script>
     </div>
 </body>    
 </head>
-
 </html>
