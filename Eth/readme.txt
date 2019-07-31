@@ -1,4 +1,6 @@
-1. 블록체인 역사, 구조, 특징, 이해 등등
+
+1. 블록체인 역사, 구조, 특징, 이해 등
+
 - 블록체인 1.0 (비트코인)
 1) 분산원장 시스템을 활용
 2) 탈중앙화, 작업증명, p2p 시스템 <-> client/server 시스템
@@ -54,7 +56,7 @@
  - 계정 확인
   $ geth --datadir "./ethereum/data" account list
 
- - ICO 행사에 투자를 받아서(예를들면) 1명이 돈을 내고 주주가 되었다
+ - ICO 행사에 투자를 받아서(예를 들면) 1명이 돈을 내고 주주가 되었다
   => 계좌 하나 생성
   => 현재 계좌는 2개(소유주, 주주1명)
       소유주  : 0x71c8252ed5b5e4452575157dd33958a5df7368e7
@@ -119,7 +121,7 @@
  $ cat Genesis.json
    파일 내용 보기
  $ geth --datadir "./ethereum/data" init "./Genesis.json"
- $ geth --identity "PrivateNetwork" --datadir "./ethereum/data" --port "30303" --rpc --rpcaddr 0.0.0.0 --rpcport "8123" --rpccorsdomain "*" --nodiscover  --networkid 1900 --nat "any" --rpcapi "db, eth, net, web3, miner, personal" console
+ $ geth --identity "PrivateNetwork" --datadir "./ethereum/data" --port "30303" --rpc --rpcaddr 0.0.0.0 --rpcport "8123" --rpccorsdomain "*" --nodiscover  --networkid 1900 --nat "any" --rpcapi "db, eth, net, web3, miner, personal" --allow-insecure-unlock console
  
  - 원격 접속
   $ geth attach http://본인의AWS아이피:8123 (aws.com의 ec2 들어가서 확인)
@@ -202,4 +204,21 @@ node_modules/bignumber.js(폴더)/bignumber.min.js 이 파일을 public/lib(새�
 5. DApp 구성 ( Node 기반, 사설네트워크 + node 서비스 )
  - 전자지갑
  - 전자투표
+  1) 기능
+  후보자 등록 : 원래는 선관위에서 진행해야 하나 편의상 어떤 계정이든 추가할 수 있게 처리
+  후보자별 득표수 조회 
+  계좌(선거구 주민, 국민, ...)별 투표 가능
+  중복 투표 거절
+
+  2) 절차
+  vote.sol를 생성 및 작성 후 테스트 : remix에서 진행
+  contract를 MISt 브라우저를 통해 네트워크로 배포
+    > MIST 브라우저로 배포
+    > sol이라는 컴파일러를 리눅스 통해 설치해 빌드 후 배포
+    > turtle이라는 nodejs의 모듈을 이용해 자동화 하는 방법
+
+  이런 contract를 nodejs에서 연결해 투표 사이트 구축
+  socket.io 이용한 실시간 통신을 통한 투표 시스템 오퍼레이션 구성
+
+
  - 배팅 시스템 
