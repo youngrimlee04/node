@@ -199,7 +199,7 @@ node_modules/web3/dist/web3-light.min.js 이 파일을 public/lib(새로생성) 
 node_modules/bignumber.js(폴더)/bignumber.min.js 이 파일을 public/lib(새로생성) 밑에 붙여넣기
 
 4. 솔리디티 언어 이해 (이더리움 네트워트 상에 프로그램이 가미된 앱을 개발하는 언어)
-- 에디터 : 
+- Eth 내 sol 폴더들 확인
 
 5. DApp 구성 ( Node 기반, 사설네트워크 + node 서비스 )
  - 전자지갑

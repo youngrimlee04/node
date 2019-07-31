@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src='/socket.io-client/socket.io.js'></script>
+</head>
+
+<body>
+  <div>
+    <h2> 블록체인 기반 전자투표</h2>
+    <fieldset>
+      <p>
+        <b>항공사 등록</b></p>
+      <select name='account' id='account'></select>
+      <input type='text' placeholder="항공사명" name='flightName' />
+      <input type='password' placeholder="후보등록을 위한 트랜잭션 발생에 필요한 gas 지급" name='pwd' />
+      <button onclick='onRegi();'>등록</button>
+    </fieldset>
+    <br>
+    <fieldset>
+          <h4>우수 항공사 명단 및 득표수</h4>
+          <ul id='list'></ul>
+          </fieldset>
+  </div>
+  <script>
+    // 1. 서버 소켓 접속
+    const socket = io.connect('http://localhost:3000')
+
+    // 접속 완료 이벤트 받기
+    socket.on('connect', (err) => {
+      // console.log('접속완료', err)
+      // 에러가 undefined 되면 isConnected는 true
+      if (typeof err === 'undefined') {
+        console.log('접속성공')
+        isConnected = true
+        socket.emit('s_send_allAccounts')
+      }
+    })
+
+    // 계좌 정보 받았다
+    socket.on('c_send_allAccounts', (accounts) => {
+
+      $.each(accounts, (idx, account) => {
+        let html = `<option value='${account.id}|${account.coin}'>
+                  ${ account.name}:${account.coin}</option>`
+        $('#account').append(html)
+      })
+    })
+
+    // 메세지 수신
+    socket.on('c_send_error', (msg) => {
+      alert(msg)
+    })
+
+    // 후보자 수 및 명단, 득표수 등을 호출
+    setInterval(()=>{
+      socket.emit('s_send_candidateInfo')
+    }, 1000*3)
+    
+
+    // 계좌 선택 시 잔액 저장 > 사실상 의미 없음 (option의 value값 구조를 변경해서 없어도 되는 코드가 됨)
+    let curAccountETH = 0
+    $('#account').on('change', () => {
+      curAccountETH = $('#account').val().split('|')[1]
+      console.log('curAccountETH', curAccountETH)
+    })
+
+    function onRegi() {
+      let name = $('[name=flightName]').val()
+      let pwd = $('[name=pwd]').val()
+      // console.log(`${name}등록`)
+
+      // 계좌, 비번, 후보자명
+      let [account, coin] = $('#account').val().split('|')
+      console.log('계좌: ', account)
+      console.log('잔고 : ', coin)
+      console.log('후보명 :', name)
+      console.log('비밀번호: ', pwd)
+
+
+
+      // 서버 쪽 이벤트 발송
+      socket.emit('s_send_addCandidate', account, coin, name, pwd)
+    }
+  </script>
+</body>
+
+</html>
